@@ -200,12 +200,11 @@ import com.modular.core.repository.BaseRepository;
 import com.modular.core.service.BaseService;
 import com.modular.myfeature.entity.MyFeatureItem;
 import com.modular.myfeature.repository.MyFeatureRepository;
-import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Extension
+
 public class MyFeatureService extends BaseService<MyFeatureItem> {
 
     @Autowired
@@ -230,7 +229,6 @@ import com.modular.core.service.BaseService;
 import com.modular.myfeature.entity.MyFeatureItem;
 import com.modular.myfeature.service.MyFeatureService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -238,7 +236,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/my-feature")
 @Tag(name = "My Feature", description = "My Feature endpoints")
-@Extension
+
 public class MyFeatureController extends BaseController<MyFeatureItem> {
 
     @Autowired
@@ -294,7 +292,7 @@ The plugin should appear in the list. Menu items are automatically registered.
 
 ## Best Practices
 
-1. **Use `@Extension` annotation** on all Spring components (Controllers, Services)
+1. **Use `` annotation** on all Spring components (Controllers, Services)
 2. **Keep dependencies `provided`** to avoid conflicts with the main app
 3. **Follow naming conventions**: `{Feature}Plugin`, `{Feature}Controller`, etc.
 4. **Add proper logging** in start/stop methods
@@ -310,7 +308,7 @@ The plugin should appear in the list. Menu items are automatically registered.
 
 ### Controllers not registered
 
-- Ensure `@Extension` annotation is present
+- Ensure `` annotation is present
 - Verify `@RestController` and `@RequestMapping` are correct
 - Check component scanning includes your package
 
