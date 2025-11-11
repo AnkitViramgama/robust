@@ -6,7 +6,6 @@ import com.modular.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import java.util.List;
 @RequestMapping("/api/products")
 @SecurityRequirement(name = "bearer-jwt")
 @Tag(name = "Product Management", description = "Product management endpoints")
-@Extension
 public class ProductController {
 
     @Autowired

@@ -7,7 +7,6 @@ import com.modular.core.service.BaseService;
 import com.modular.product.dto.ProductDto;
 import com.modular.product.entity.Product;
 import com.modular.product.repository.ProductRepository;
-import org.pf4j.Extension;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
  * Product service
  */
 @Service
-@Extension
 public class ProductService extends BaseService<Product> {
 
     @Autowired
