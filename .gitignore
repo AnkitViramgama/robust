@@ -1,0 +1,53 @@
+# Backend
+backend/*/target/
+backend/*/.mvn/
+backend/*/mvnw
+backend/*/mvnw.cmd
+backend/*/.idea/
+backend/*/*.iml
+backend/*/.classpath
+backend/*/.project
+backend/*/.settings/
+
+# Frontend
+frontend/build/
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/.idea/
+frontend/*.iml
+
+# Environment files
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Plugins
+plugins/*.jar
+!plugins/.gitkeep

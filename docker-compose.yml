@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: modular-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: modular_app
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - modular-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: modular-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_DATABASE: modular_app
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: admin123
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - modular-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: modular-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - modular-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  modular-network:
+    driver: bridge

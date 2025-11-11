@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: modular-app
+  data:
+    mongodb:
+      host: ${MONGO_HOST:localhost}
+      port: ${MONGO_PORT:27017}
+      database: ${MONGO_DATABASE:modular_app}
+      username: ${MONGO_USERNAME:}
+      password: ${MONGO_PASSWORD:}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+jwt:
+  secret: ${JWT_SECRET:modular-app-secret-key-change-this-in-production-environment}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+
+logging:
+  level:
+    root: INFO
+    com.modular: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+plugin:
+  path: ${PLUGIN_PATH:./plugins}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: modular_app_dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: modular_app_test
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT:27017}
+      database: ${MONGO_DATABASE:modular_app}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
