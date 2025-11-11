@@ -1,8 +1,6 @@
 package com.modular.user.controller;
 
-import com.modular.core.controller.BaseController;
 import com.modular.core.dto.ApiResponse;
-import com.modular.core.service.BaseService;
 import com.modular.user.dto.UserDto;
 import com.modular.user.entity.User;
 import com.modular.user.service.UserService;
@@ -24,20 +22,23 @@ import java.util.List;
 @RequestMapping("/api/users")
 @SecurityRequirement(name = "bearer-jwt")
 @Tag(name = "User Management", description = "User management endpoints")
-public class UserController extends BaseController<User> {
+public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Override
-    protected BaseService<User> getService() {
-        return userService;
-    }
 
     @GetMapping("/me")
     @Operation(summary = "Get current user profile")
     public ResponseEntity<ApiResponse<UserDto>> getCurrentUser(Principal principal) {
         UserDto user = userService.getUserByUsername(principal.getName());
+        return ResponseEntity.ok(ApiResponse.success(user));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get user by ID")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable String id) {
+        UserDto user = userService.getUserById(id);
         return ResponseEntity.ok(ApiResponse.success(user));
     }
 
@@ -55,6 +56,14 @@ public class UserController extends BaseController<User> {
     public ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable String id, @RequestBody UserDto userDto) {
         UserDto updated = userService.updateUser(id, userDto);
         return ResponseEntity.ok(ApiResponse.success(updated, "User updated successfully"));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete user")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable String id) {
+        userService.deleteById(id);
+        return ResponseEntity.ok(ApiResponse.success(null, "User deleted successfully"));
     }
 
     @PostMapping("/{userId}/roles")
