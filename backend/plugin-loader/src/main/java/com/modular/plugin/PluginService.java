@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +63,15 @@ public class PluginService {
 
     public boolean reloadPlugin(String pluginId) {
         try {
+            PluginWrapper plugin = pluginManager.getPlugin(pluginId);
+            if (plugin == null) {
+                logger.error("Plugin not found: {}", pluginId);
+                return false;
+            }
+
+            Path pluginPath = plugin.getPluginPath();
             pluginManager.unloadPlugin(pluginId);
-            pluginManager.loadPlugin(Paths.get(pluginManager.getPlugin(pluginId).getPluginPath()));
+            pluginManager.loadPlugin(pluginPath);
             pluginManager.startPlugin(pluginId);
             registerPluginMenus();
             return true;
